@@ -1,70 +1,104 @@
 .form-section {
-    background: #40414f;
-    padding: 16px;
-    border-top: 1px solid #555d67;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-section h2 {
-    font-size: 1.25rem;
-    color: #e5e5e5;
-  }
-  
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px; 
-  }
-  
-  .form-grid select,
-  .form-grid input {
-    background-color: #343541;
-    color: #e5e5e5;
-    border: 1px solid #555d67;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 0.9rem;
-    margin-bottom: 12px;
-    margin-right: 15px;
-    width: 20%;
-  }
+  background: #40414f;
+  padding: 16px;
+  border-top: 1px solid #555d67;
+  display: flex;
+  flex-direction: column;
+}
 
-  .readonly-fields input {
-    cursor: not-allowed;
-    margin-bottom: 0;
-  }
-  
-  .form-grid input[readonly] {
-    background-color: #2e2f3a;
-    color: #b5b5b5;
-  }
+.form-section h2 {
+  font-size: 1.25rem;
+  color: #e5e5e5;
+}
 
-  .button-group{
-    margin-top: 10px;
-    display: flex;
-    justify-content: end;
-    gap: 16px;
-  }
-  
-  .form-section button {
-    align-self: flex-end;
-    background-color: #10a37f;
-    color: #ffffff;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s;
-  }
-  
-  .form-section button:hover {
-    background-color: #0e8c6e;
-  }
-  
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.form-grid select,
+.form-grid input {
+  background-color: #343541;
+  color: #e5e5e5;
+  border: 1px solid #555d67;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  margin-right: 15px;
+  width: 20%;
+}
+
+.readonly-fields{
+  cursor: not-allowed;
+  margin-bottom: 0;
+}
+
+.readonly-fields div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.readonly-fields small {
+  color: #ccc;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+.readonly-fields-inline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.readonly-fields-inline div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.readonly-fields-inline input {
+  margin-right: 4px;
+  padding: 6px 8px;
+  width: 100px;
+}
+
+.readonly-fields-inline small {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.form-grid input[readonly] {
+  background-color: #2e2f3a;
+  color: #b5b5b5;
+}
+
+.button-group {
+  margin-top: 10px;
+  display: flex;
+  justify-content: end;
+  gap: 16px;
+}
+
+.form-section button {
+  align-self: flex-end;
+  background-color: #10a37f;
+  color: #ffffff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.form-section button:hover {
+  background-color: #0e8c6e;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

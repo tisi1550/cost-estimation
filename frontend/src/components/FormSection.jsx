@@ -178,31 +178,43 @@ function FormSection({ setChatHistory }) {
               ))}
             </select>
 
-            <div className="readonly-fields">
-              <input
-                type="text"
-                name="CPU"
-                value={`${formData.CPU} vCPUs`}
-                readOnly
-              />
-              <input
-                type="text"
-                name="Memory"
-                value={`${formData.Memory} GB`}
-                readOnly
-              />
-              <input
-                type="text"
-                name="Disk"
-                value={`${formData.Disk} GB`}
-                readOnly
-              />
-              <input
-                type="text"
-                name="Network"
-                value={`${formData.Network} Gbps`}
-                readOnly
-              />
+            <div className="readonly-fields-inline">
+              <div>
+                <input
+                  type="text"
+                  name="CPU"
+                  value={`${formData.CPU} vCPUs`}
+                  readOnly
+                />
+                <small>CPU</small>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="Memory"
+                  value={`${formData.Memory} GB`}
+                  readOnly
+                />
+                <small>Memory</small>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="Disk"
+                  value={`${formData.Disk} GB`}
+                  readOnly
+                />
+                <small>Disk</small>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="Network"
+                  value={`${formData.Network} Gbps`}
+                  readOnly
+                />
+                <small>Network</small>
+              </div>
             </div>
           </div>
 
