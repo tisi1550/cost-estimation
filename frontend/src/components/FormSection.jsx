@@ -105,7 +105,9 @@ function FormSection({ setChatHistory }) {
               value={formData.batch_size}
               onChange={handleChange}
             >
-              <option value="">Batch Size</option>
+              <option value="" disabled>
+                Batch Size
+              </option>
               {batch_sizes.map((size) => (
                 <option key={size} value={size}>
                   {size}
@@ -118,7 +120,9 @@ function FormSection({ setChatHistory }) {
               value={formData.workers}
               onChange={handleChange}
             >
-              <option value=""># of Workers</option>
+              <option value="" disabled>
+                # of Workers
+              </option>
               {worker_counts.map((count) => (
                 <option key={count} value={count}>
                   {count}
@@ -131,7 +135,9 @@ function FormSection({ setChatHistory }) {
               value={formData.machine_type}
               onChange={handleChange}
             >
-              <option value="">Machine Type</option>
+              <option value="" disabled>
+                Machine Type
+              </option>
               {machine_types.map((type) => (
                 <option key={type} value={type}>
                   {type}
@@ -191,7 +197,7 @@ function FormSection({ setChatHistory }) {
               onChange={handleChange}
               placeholder="Learning Rate"
             />
-            <select
+            {/* <select
               name="instance_CPU"
               value={formData.instance_CPU}
               onChange={handleChange}
@@ -202,14 +208,14 @@ function FormSection({ setChatHistory }) {
                   {cpu} vCPUs
                 </option>
               ))}
-            </select>
-            <input
+            </select> */}
+            {/* <input
               type="number"
               name="instance_network_bandwidth"
               value={formData.instance_network_bandwidth}
               onChange={handleChange}
               placeholder="Network Bandwidth (Gbps)"
-            />
+            /> */}
             <input
               type="text"
               name="framework"
@@ -221,7 +227,9 @@ function FormSection({ setChatHistory }) {
               value={formData.optimizer}
               onChange={handleChange}
             >
-              <option value="">Optimizer</option>
+              <option value="" disabled>
+                Optimizer
+              </option>
               {["Adam", "AdamW", "SGD"].map((opt) => (
                 <option key={opt} value={opt}>
                   {opt}
