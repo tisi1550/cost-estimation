@@ -58,20 +58,53 @@ function FormSection({ setChatHistory }) {
     }
   };
 
-  const handleTrainingTime = () => {
+  const handleTrainingTime = async () => {
     setChatHistory((prev) => [
       ...prev,
       { role: "user", action: "get_time", data: formData },
     ]);
 
-    const response = { estimated_time: "5 hours" }; // dummy response
-    setChatHistory((prev) => [
-      ...prev,
-      {
-        role: "assistant",
-        text: `Estimated Training Time: ${response.estimated_time}`,
-      },
-    ]);
+    try {
+      const response = await fetch("http://localhost:5000/api/predict-time", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          "Hyperparameters_# of Epochs": Number(formData.epochs),
+          "Hyperparameters_# of Model Parameters": Number(
+            formData.model_parameters
+          ),
+          "Hyperparameters_# of Workers": Number(formData.workers),
+          "Hyperparameters_Batch Size": Number(formData.batch_size),
+          "Hyperparameters_Learning Rate": Number(formData.learning_rate),
+          Instance_Config_CPU_Numeric: Number(formData.CPU),
+          Instance_Config_Memory_Numeric: Number(formData.Memory),
+          Instance_Config_Disk_Numeric: Number(formData.Disk),
+          Instance_Config_Network_Bandwidth_Numeric: Number(
+            formData.instance_network_bandwidth
+          ),
+          Additional_Config_Framework: formData.framework,
+          Hyperparameters_Optimizer: formData.optimizer,
+          Instance_Config_instance_name: formData.machine_type,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Frontend got:", data);
+
+      setChatHistory((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          text: `Estimated Training Time: ${data.estimated_time || "N/A"}`,
+        },
+      ]);
+    } catch (err) {
+      console.error(err);
+      setChatHistory((prev) => [
+        ...prev,
+        { role: "assistant", text: "Error fetching training time." },
+      ]);
+    }
   };
 
   const handleTrainingCost = () => {
