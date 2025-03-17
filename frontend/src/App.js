@@ -1,15 +1,15 @@
 import { useState } from "react";
+import FormSection from "./components/FormSection";
+import ChatHistory from "./components/ChatHistory";
 import "./App.css";
-import ConfigForm from "./components/ConfigForm";
-import ChatArea from "./components/ChatArea";
 
 function App() {
   const [chatHistory, setChatHistory] = useState([]);
 
   return (
     <div className="App">
-      <ConfigForm setChatHistory={setChatHistory} chatHistory={chatHistory} />
-      <ChatArea chatHistory={chatHistory} />
+      <FormSection setChatHistory={setChatHistory} />
+      <ChatHistory chatHistory={chatHistory} />
     </div>
   );
 }
