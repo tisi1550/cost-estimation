@@ -85,8 +85,20 @@ function FormSection({ setChatHistory }) {
     setChatHistory((prev) => [...prev, { role: "user", action: userAction, data: formData }]);
 
     if (type === "cost") {
-      const response = { estimated_cost: "$120" }; // Placeholder
-      setChatHistory((prev) => [...prev, { role: "assistant", text: `Estimated Training Cost: ${response.estimated_cost}` }]);
+      try {
+        const response = await fetch(ENDPOINTS.predictCost, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(makeRequestPayload()),
+        });
+
+        const result = await response.json();
+        setChatHistory((prev) => [...prev, { role: "assistant", text: `Estimated Training Cost: $${result.estimated_cost || "N/A"}` }]);
+
+      } catch (error) {
+        console.error(error);
+        setChatHistory((prev) => [...prev, { role: "assistant", text: `Error fetching training cost.` }]);
+      }
       return;
     }
 
@@ -135,7 +147,7 @@ function FormSection({ setChatHistory }) {
   return (
     <div className="form-section">
       <div className="form-columns">
-        
+
         <div className="card">
           <h3 className="card-title">Resource Allocation</h3>
           <div className="form-grid">
