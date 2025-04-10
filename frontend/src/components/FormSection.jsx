@@ -115,6 +115,38 @@ function FormSection({ setChatHistory }) {
     }
   };
 
+
+  const handleJsonUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const json = JSON.parse(text);
+
+      const updatedFormData = {
+        epochs: json["Hyperparameters_# of Epochs"] || "",
+        model_parameters: json["Hyperparameters_# of Model Parameters"] || "",
+        workers: json["Hyperparameters_# of Workers"] || "",
+        batch_size: json["Hyperparameters_Batch Size"] || "",
+        learning_rate: json["Hyperparameters_Learning Rate"] || "",
+        CPU: json["Instance_Config_CPU_Numeric"] || "",
+        Memory: json["Instance_Config_Memory_Numeric"] || "",
+        Disk: json["Instance_Config_Disk_Numeric"] || "",
+        Network: json["Instance_Config_Network_Bandwidth_Numeric"] || "",
+        framework: json["Additional_Config_Framework"] || "PyTorch",
+        optimizer: json["Hyperparameters_Optimizer"] || "",
+        machine_type: json["Instance_Config_instance_name"] || "",
+      };
+
+      setFormData(updatedFormData);
+    } catch (err) {
+      alert("Invalid JSON file");
+      console.error(err);
+    }
+  };
+
+
   const handleTrainingCost = () => {
     setChatHistory((prev) => [
       ...prev,
@@ -137,6 +169,7 @@ function FormSection({ setChatHistory }) {
         AI Cost Estimator
       </h1>
       <div className="form-section">
+
         <div className="form-grid">
           {/* Resource Inputs */}
           <div className="resource-group">
@@ -250,25 +283,6 @@ function FormSection({ setChatHistory }) {
               onChange={handleChange}
               placeholder="Learning Rate"
             />
-            {/* <select
-              name="instance_CPU"
-              value={formData.instance_CPU}
-              onChange={handleChange}
-            >
-              <option value="">Instance CPU</option>
-              {[4, 8, 16, 32].map((cpu) => (
-                <option key={cpu} value={cpu}>
-                  {cpu} vCPUs
-                </option>
-              ))}
-            </select> */}
-            {/* <input
-              type="number"
-              name="instance_network_bandwidth"
-              value={formData.instance_network_bandwidth}
-              onChange={handleChange}
-              placeholder="Network Bandwidth (Gbps)"
-            /> */}
             <input
               type="text"
               name="framework"
@@ -291,6 +305,17 @@ function FormSection({ setChatHistory }) {
             </select>
           </div>
         </div>
+
+        <h3>OR</h3>
+
+        <h3>Upload Model Config</h3>
+        <input
+          type="file"
+          accept="application/json"
+          onChange={handleJsonUpload}
+          style={{ marginBottom: "1rem", color: "white" }}
+        />
+
 
         {/* Two Buttons */}
         <div className="button-group">
