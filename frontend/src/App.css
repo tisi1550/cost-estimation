@@ -1,21 +1,54 @@
-/* Global Styles */
 body {
   margin: 0;
-  background-color: #343541;
+  background-color: #202123;
   font-family: "Inter", sans-serif;
-  color: #e5e5e5;
+  color: #f3f3f3;
 }
 
 .App {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 
+header {
+  background-color: #2a2b32;
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-bottom: 1px solid #3a3b42;
+  color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
-.chat-container {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: #343541;
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 2rem;
+  background-color: #2a2b32;
+}
+
+@media (min-width: 900px) {
+  .main-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .main-content > * {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .form-section {
+    flex: 1.3;
+  }
+
+  .chat-container {
+    flex: 1;
+    max-width: 600px;
+  }
 }

@@ -8,8 +8,11 @@ function App() {
 
   return (
     <div className="App">
-      <FormSection setChatHistory={setChatHistory} />
-      <ChatHistory chatHistory={chatHistory} />
+      <header>AI Training Cost & Time Estimator</header>
+      <div className="main-content">
+        <FormSection setChatHistory={setChatHistory} />
+        <ChatHistory chatHistory={chatHistory} />
+      </div>
     </div>
   );
 }

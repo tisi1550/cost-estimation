@@ -134,58 +134,91 @@ function FormSection({ setChatHistory }) {
 
   return (
     <div className="form-section">
-      <h1 className="form-title">AI Cost Estimator</h1>
+      <div className="form-columns">
+        
+        <div className="card">
+          <h3 className="card-title">Resource Allocation</h3>
+          <div className="form-grid">
+            <label htmlFor="batch_size">
+              Batch Size
+              <select name="batch_size" value={formData.batch_size} onChange={handleChange}>
+                <option value="" disabled>Select</option>
+                {BATCH_SIZES.map((size) => <option key={size} value={size}>{size}</option>)}
+              </select>
+            </label>
 
-      <div className="form-grid">
-        <div className="resource-group">
-          <h3>Resource Allocation</h3>
-          <select name="batch_size" value={formData.batch_size} onChange={handleChange}>
-            <option value="" disabled>Batch Size</option>
-            {BATCH_SIZES.map((size) => <option key={size} value={size}>{size}</option>)}
-          </select>
+            <label htmlFor="workers">
+              Workers
+              <select name="workers" value={formData.workers} onChange={handleChange}>
+                <option value="" disabled>Select</option>
+                {WORKER_COUNTS.map((count) => <option key={count} value={count}>{count}</option>)}
+              </select>
+            </label>
 
-          <select name="workers" value={formData.workers} onChange={handleChange}>
-            <option value="" disabled># of Workers</option>
-            {WORKER_COUNTS.map((count) => <option key={count} value={count}>{count}</option>)}
-          </select>
+            <label htmlFor="machine_type">
+              Machine Type
+              <select name="machine_type" value={formData.machine_type} onChange={handleChange}>
+                <option value="" disabled>Select</option>
+                {MACHINE_TYPES.map((type) => <option key={type} value={type}>{type}</option>)}
+              </select>
+            </label>
+          </div>
 
-          <select name="machine_type" value={formData.machine_type} onChange={handleChange}>
-            <option value="" disabled>Machine Type</option>
-            {MACHINE_TYPES.map((type) => <option key={type} value={type}>{type}</option>)}
-          </select>
-
-          <div className="readonly-fields-inline">
+          <div className="readonly-fields">
             {["CPU", "Memory", "Disk", "Network"].map((key) => (
               <div key={key}>
+                <small>{key}</small>
                 <input
                   type="text"
                   name={key}
                   value={`${formData[key]} ${key === "CPU" ? "vCPUs" : key === "Network" ? "Gbps" : "GB"}`}
                   readOnly
                 />
-                <small>{key}</small>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="model-group">
-          <h3>Model Configuration</h3>
-          <input type="number" name="epochs" value={formData.epochs} onChange={handleChange} placeholder="Number of Epochs" />
-          <input type="text" name="model_parameters" value={formData.model_parameters} onChange={handleChange} placeholder="Model Parameters" />
-          <input type="number" name="learning_rate" value={formData.learning_rate} onChange={handleChange} placeholder="Learning Rate" />
-          <input type="text" name="framework" value={formData.framework} readOnly />
+        <div className="card">
+          <h3 className="card-title">Model Configuration</h3>
+          <div className="form-grid">
+            <label htmlFor="epochs">
+              Epochs
+              <input type="number" name="epochs" value={formData.epochs} onChange={handleChange} placeholder="e.g. 10" />
+            </label>
 
-          <select name="optimizer" value={formData.optimizer} onChange={handleChange}>
-            <option value="" disabled>Optimizer</option>
-            {["Adam", "AdamW", "SGD"].map((opt) => <option key={opt} value={opt}>{opt}</option>)}
-          </select>
+            <label htmlFor="model_parameters">
+              Model Parameters
+              <input type="text" name="model_parameters" value={formData.model_parameters} onChange={handleChange} placeholder="e.g. 1.5B" />
+            </label>
+
+            <label htmlFor="learning_rate">
+              Learning Rate
+              <input type="number" name="learning_rate" value={formData.learning_rate} onChange={handleChange} placeholder="e.g. 0.001" />
+            </label>
+
+            <label htmlFor="framework">
+              Framework
+              <input type="text" name="framework" value={formData.framework} readOnly />
+            </label>
+
+            <label htmlFor="optimizer">
+              Optimizer
+              <select name="optimizer" value={formData.optimizer} onChange={handleChange}>
+                <option value="" disabled>Select</option>
+                {["Adam", "AdamW", "SGD"].map((opt) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
       </div>
 
-      <h3>OR</h3>
-      <h3>Upload Model Config</h3>
-      <input type="file" accept="application/json" onChange={handleJsonUpload} className="file-upload" />
+      <div className="card">
+        <h3 className="card-title">Upload JSON Config (Recommended)</h3>
+        <input type="file" accept="application/json" onChange={handleJsonUpload} className="file-upload" />
+      </div>
 
       <div className="button-group">
         <button onClick={() => handlePredict("time")} disabled={isLoading}>Get Training Time</button>
