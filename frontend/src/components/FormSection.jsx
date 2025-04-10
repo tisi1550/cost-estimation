@@ -23,6 +23,10 @@ const machine_resources = {
   "e2-highmem-16": { CPU: 16, Memory: 128, Disk: 100, Network: 2 },
 };
 
+const apiUrl = process.env.REACT_APP_BASE_BACKEND || "http://localhost:5000";
+const predictTimeUrl = `${apiUrl}/api/predict-time`;
+const predictCostUrl = `${apiUrl}/api/predict-cost`;
+
 function FormSection({ setChatHistory }) {
   const [formData, setFormData] = useState({
     batch_size: "",
@@ -38,6 +42,8 @@ function FormSection({ setChatHistory }) {
     framework: "PyTorch",
     optimizer: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,8 +68,10 @@ function FormSection({ setChatHistory }) {
       { role: "user", action: "get_time", data: formData },
     ]);
 
+    setIsLoading(true);
+
     try {
-      const response = await fetch("http://localhost:5000/api/predict-time", {
+      const response = await fetch(predictTimeUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -102,6 +110,8 @@ function FormSection({ setChatHistory }) {
         ...prev,
         { role: "assistant", text: "Error fetching training time." },
       ]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
