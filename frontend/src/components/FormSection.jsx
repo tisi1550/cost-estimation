@@ -35,8 +35,6 @@ function FormSection({ setChatHistory }) {
     epochs: "",
     model_parameters: "",
     learning_rate: "",
-    instance_CPU: "",
-    instance_network_bandwidth: "",
     framework: "PyTorch",
     optimizer: "",
   });

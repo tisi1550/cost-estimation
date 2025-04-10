@@ -1,15 +1,17 @@
 const express = require("express");
 const cors = require("cors");
+const dotenv = require("dotenv");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const MODEL_API_URL = "https://ml-time-api-1000212396435.us-central1.run.app/predict_time";
+dotenv.config();
+
 
 app.post("/api/predict-time", async (req, res) => {
     try {
-      const response = await fetch(MODEL_API_URL, {
+      const response = await fetch(process.env.MODEL_API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(req.body),
