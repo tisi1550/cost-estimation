@@ -11,7 +11,7 @@ dotenv.config();
 
 app.post("/api/predict-time", async (req, res) => {
     try {
-      const response = await fetch(process.env.MODEL_API_URL, {
+      const response = await fetch(process.env.PREDICT_TIME, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(req.body),
