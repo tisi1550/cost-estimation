@@ -84,37 +84,43 @@ function FormSection({ setChatHistory }) {
     const userAction = type === "time" ? "get_time" : "get_cost";
     setChatHistory((prev) => [...prev, { role: "user", action: userAction, data: formData }]);
 
-    if (type === "cost") {
-      try {
-        const response = await fetch(ENDPOINTS.predictCost, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(makeRequestPayload()),
-        });
-
-        const result = await response.json();
-        setChatHistory((prev) => [...prev, { role: "assistant", text: `Estimated Training Cost: $${Math.max(0, result.estimated_cost || 0).toFixed(2) || "N/A"}` }]);
-
-      } catch (error) {
-        console.error(error);
-        setChatHistory((prev) => [...prev, { role: "assistant", text: `Error fetching training cost.` }]);
-      }
-      return;
-    }
-
     setIsLoading(true);
+
+    const loadingText = type === "cost" ? "Fetching estimated training cost..." : "Fetching estimated training time...";
+    const placeholder = { role: "assistant", text: loadingText };
+
+    let placeholderIndex;
+    setChatHistory((prev) => {
+      placeholderIndex = prev.length;
+      return [...prev, placeholder];
+    });
+
     try {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(makeRequestPayload()),
       });
+
       const result = await response.json();
-      const estimatedTime = Math.max(0, result.estimated_time || 0);
-      setChatHistory((prev) => [...prev, { role: "assistant", text: `Estimated Training Time: ${estimatedTime}` }]);
+
+      const resultText = type === "cost"
+        ? `Estimated Training Cost: $${Math.max(0, result.estimated_cost || 0).toFixed(2)}`
+        : `Estimated Training Time: ${Math.max(0, result.estimated_time || 0)}`;
+
+      setChatHistory((prev) => {
+        const updated = [...prev];
+        updated[placeholderIndex] = { role: "assistant", text: resultText };
+        return updated;
+      });
+
     } catch (error) {
       console.error(error);
-      setChatHistory((prev) => [...prev, { role: "assistant", text: `Error fetching training ${type}.` }]);
+      setChatHistory((prev) => {
+        const updated = [...prev];
+        updated[placeholderIndex] = { role: "assistant", text: `Error fetching training ${type}.` };
+        return updated;
+      });
     } finally {
       setIsLoading(false);
     }
