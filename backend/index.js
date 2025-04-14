@@ -33,7 +33,7 @@ app.post("/api/predict-cost", async (req, res) => {
     });
 
     const result = await response.json();
-    res.json({ estimated_cost: result.training_cost });
+    res.json({ estimated_cost: result.cost });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch prediction" });
