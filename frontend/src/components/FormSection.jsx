@@ -93,7 +93,7 @@ function FormSection({ setChatHistory }) {
         });
 
         const result = await response.json();
-        setChatHistory((prev) => [...prev, { role: "assistant", text: `Estimated Training Cost: $${result.estimated_cost || "N/A"}` }]);
+        setChatHistory((prev) => [...prev, { role: "assistant", text: `Estimated Training Cost: $${Math.max(0, result.estimated_cost || 0).toFixed(2) || "N/A"}` }]);
 
       } catch (error) {
         console.error(error);
