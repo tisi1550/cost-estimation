@@ -110,7 +110,8 @@ function FormSection({ setChatHistory }) {
         body: JSON.stringify(makeRequestPayload()),
       });
       const result = await response.json();
-      setChatHistory((prev) => [...prev, { role: "assistant", text: `Estimated Training Time: ${result.estimated_time || "N/A"}` }]);
+      const estimatedTime = Math.max(0, result.estimated_time || 0);
+      setChatHistory((prev) => [...prev, { role: "assistant", text: `Estimated Training Time: ${estimatedTime}` }]);
     } catch (error) {
       console.error(error);
       setChatHistory((prev) => [...prev, { role: "assistant", text: `Error fetching training ${type}.` }]);
@@ -143,6 +144,19 @@ function FormSection({ setChatHistory }) {
       console.error(error);
     }
   };
+
+  const isFormValid = () => {
+    return (
+      formData.batch_size &&
+      formData.workers &&
+      formData.machine_type &&
+      formData.epochs &&
+      formData.model_parameters &&
+      formData.learning_rate &&
+      formData.optimizer
+    );
+  };
+
 
   return (
     <div className="form-section">
@@ -233,8 +247,8 @@ function FormSection({ setChatHistory }) {
       </div>
 
       <div className="button-group">
-        <button onClick={() => handlePredict("time")} disabled={isLoading}>Get Training Time</button>
-        <button onClick={() => handlePredict("cost")} disabled={isLoading}>Get Training Cost</button>
+        <button onClick={() => handlePredict("time")} disabled={isLoading || !isFormValid()}>Get Training Time</button>
+        <button onClick={() => handlePredict("cost")} disabled={isLoading || !isFormValid()}>Get Training Cost</button>
       </div>
     </div>
   );
